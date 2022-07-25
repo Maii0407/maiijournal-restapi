@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'myJournal-restAPI' });
+  res.render('index', { title: 'maiiJournal-restAPI' });
 });
 
 module.exports = router;

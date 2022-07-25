@@ -1,11 +1,11 @@
 {
-  "name": "myjournal-restapi",
+  "name": "maiijournal-restapi",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
     "startnodemon": "nodemon ./bin/www",
-    "devstart": "DEBUG=myjournal-restapi:* npm run startnodemon"
+    "devstart": "DEBUG=maiijournal-restapi:* npm run startnodemon"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
