@@ -3,10 +3,6 @@ const bcrypt = require( 'bcryptjs' );
 
 const jwt = require( 'jsonwebtoken' );
 
-const passport = require( 'passport' );
-const jwtStrategy = require( '../auth/jwt' );
-passport.use( jwtStrategy );
-
 const User = require( '../models/user' );
 
 exports.userCreate = [
@@ -26,9 +22,8 @@ exports.userCreate = [
         userID: req.body.userID,
         password: hashedPassword
       }).save( err => {
-        if( err ) {
-          return next( err );
-        }
+        if( err ) { return next( err ); }
+
         res.json({ message: 'SignUp Success' });
       })
     })
@@ -56,6 +51,6 @@ exports.userLogin = async ( req, res, next ) => {
     }
   }
   catch( err ) {
-    console.log( err )
+    return res.json( err );
   }
 };
