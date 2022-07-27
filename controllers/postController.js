@@ -2,12 +2,22 @@ const { body, validationResult } = require( 'express-validator' );
 
 const Post = require( '../models/post' );
 
-exports.postList = ( req, res ) => {
-  res.send( 'Post List GET' );
+exports.postList = async ( req, res, next ) => {
+  const posts = await Post.find().sort({ title: 1 });
+
+  return res.json({ posts });
 };
 
-exports.postDetail = ( req, res ) => {
-  res.send( 'Post Detail GET' );
+exports.postPublic = async ( req, res, next ) => {
+  const posts = await Post.find({ postStatus: 'published' }).sort({ title: 1 });
+
+  return res.json({ posts });
+};
+
+exports.postDetail = async ( req, res, next ) => {
+  const post = await Post.findById( req.params.postId );
+
+  return res.json({ post });
 };
 
 exports.postCreate = [
@@ -24,7 +34,7 @@ exports.postCreate = [
       postStatus: req.body.postStatus,
       date: new Date(),
       user: req.user._id,
-      category: 'empty'
+      category: req.body.category
     }).save( err => {
       if( err ) { return next( err ); }
 
@@ -33,10 +43,49 @@ exports.postCreate = [
   }
 ];
 
-exports.postDelete = ( req, res ) => {
-  res.send( 'Post Delete DELETE' );
+exports.postDelete = async ( req, res, next ) => {
+  const post = await Post.findById( req.params.postId )
+
+  if( post ) {
+    await post.deleteOne();
+    return res.json({ message: 'Post Deleted' });
+  }
+
+  return res.json({
+    message: 'Post Delete Failed',
+    post
+  })
 };
 
-exports.postUpdate = ( req, res ) => {
-  res.send( 'Post Update PUT' );
-};
+exports.postUpdate = [
+  body( 'title', 'Title is required' ).trim().isLength({ min: 1 }).escape(),
+  body( 'content', 'Content is required' ).trim().isLength({ min: 1 }).escape(),
+  body( 'postStatus', 'Post Status is required' ).trim().isLength({ min: 1 }).escape(),
+
+  async ( req, res, next ) => {
+    const errors = validationResult( req );
+
+    if( !errors.isEmpty() ) {
+      res.json({ errors: errors.array() });
+      return;
+    }
+    else {
+      const update = await Post.updateOne(
+        { _id: req.params.postId },
+        {
+          title: req.body.title,
+          content: req.body.content,
+          date: new Date(),
+          postStatus: req.body.postStatus,
+          category: req.body.category
+        }
+      );
+
+      if( update ) {
+        return res.json({ message: 'Post Updated' });
+      }
+
+      return res.json({ message: 'Post Update Failed' });
+    }
+  }
+];

@@ -19,10 +19,6 @@ const PostSchema = new Schema({
     type: String,
     required: true
   },
-  genre: {
-    type: String,
-    required: true
-  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

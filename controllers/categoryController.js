@@ -34,37 +34,37 @@ exports.categoryDelete = async ( req, res, next ) => {
   const category = await Category.findById( req.params.categoryId );
 
   if( category ) {
-    await category.remove();
-    return res.json({ message: 'Category Delete Success' });
+    await category.deleteOne();
+    return res.json({ message: 'Category Deleted' });
   }
 
-  return res.json({ category });
+  return res.json({
+    message: 'Category Delete Failed',
+    category
+  });
 };
 
 exports.categoryUpdate = [
   body( 'name', 'Category Name is required' ).trim().isLength({ min: 1 }).escape(),
 
-  ( req, res, next ) => {
+  async ( req, res, next ) => {
     const errors = validationResult( req );
-
-    const category = new Category({
-      name: req.body.name,
-      _id: req.params.categoryId
-    });
 
     if( !errors.isEmpty() ) {
       res.json({ errors: errors.array() });
       return;
     }
     else {
-      Category.findByIdAndUpdate( req.params.categoryId, category, {}, ( err, thecategory ) => {
-        if( err ) { return next( err ); }
-  
-        res.json({
-          message: 'Category Updated',
-          thecategory
-        });
-      })
+      const update = await Category.updateOne(
+        { _id: req.params.categoryId },
+        { name: req.body.name }
+      );
+
+      if( update ) {
+        return res.json({ message: 'Category Updated' });
+      }
+
+      return res.json({ message: 'Update Failed' });
     }
   }
 ];
