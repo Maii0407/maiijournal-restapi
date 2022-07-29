@@ -38,7 +38,7 @@ exports.postCreate = [
     }).save( err => {
       if( err ) { return next( err ); }
 
-      return res.json({ message: 'Post Create Success' });
+      return res.json({ message: 'Post Created' });
     })
   }
 ];
