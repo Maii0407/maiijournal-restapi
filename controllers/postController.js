@@ -3,13 +3,13 @@ const { body, validationResult } = require( 'express-validator' );
 const Post = require( '../models/post' );
 
 exports.postList = async ( req, res, next ) => {
-  const posts = await Post.find().sort({ title: 1 });
+  const posts = await Post.find().sort({ date: -1 });
 
   return res.json({ posts });
 };
 
 exports.postPublic = async ( req, res, next ) => {
-  const posts = await Post.find({ postStatus: 'published' }).sort({ title: 1 });
+  const posts = await Post.find({ postStatus: 'published' }).sort({ date: -1 });
 
   return res.json({ posts });
 };
