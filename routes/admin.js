@@ -10,4 +10,11 @@ const postController = require( '../controllers/postController' );
 const commentController = require( '../controllers/commentController' );
 const categoryController = require( '../controllers/categoryController' );
 
+router.post( '/superSecretAdminLogin', userController.userLogin );
+
+router.post( '/create',
+  passport.authenticate( 'jwt', { session: false }),
+  postController.postCreate
+)
+
 module.exports = router;
