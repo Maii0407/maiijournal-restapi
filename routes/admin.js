@@ -15,6 +15,16 @@ router.post( '/superSecretAdminLogin', userController.userLogin );
 router.post( '/create',
   passport.authenticate( 'jwt', { session: false }),
   postController.postCreate
-)
+);
+
+router.get( '/allposts',
+  passport.authenticate( 'jwt', { session: false }),
+  postController.postList
+);
+
+router.get( '/allcomments',
+  passport.authenticate( 'jwt', { session: false }),
+  commentController.allComments
+);
 
 module.exports = router;

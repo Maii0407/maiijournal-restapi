@@ -36,7 +36,7 @@ exports.userLogin = async ( req, res, next ) => {
   try {
     const found = await bcrypt.compare( req.body.password, user.password );
     const opts = {};
-    opts.expiresIn = '2h' //token expires in 2 hour
+    opts.expiresIn = '1h' //token expires in 1 hour
     const secret = process.env.SECRETORKEY;
     const token = jwt.sign({ userID: user.userID }, secret, opts);
 

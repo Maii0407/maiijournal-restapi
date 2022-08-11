@@ -9,7 +9,8 @@ exports.postList = async ( req, res, next ) => {
 };
 
 exports.postPublic = async ( req, res, next ) => {
-  const posts = await Post.find({ postStatus: 'published' }).sort({ date: -1 }).populate( 'user' );
+  const posts = await Post.find({ postStatus: 'published' }).sort({ date: -1 })
+    .populate( 'user category' );
 
   return res.json({ posts });
 };

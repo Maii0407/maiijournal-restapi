@@ -2,8 +2,14 @@ const { body, validationResult } = require( 'express-validator' );
 
 const Comment = require( '../models/comment' );
 
-exports.commentList = async ( req, res ) => {
+exports.allComments = async ( req, res ) => {
   const comments = await Comment.find().sort({ date: -1 });
+
+  return res.json({ comments });
+};
+
+exports.commentList = async ( req, res ) => {
+  const comments = await Comment.find({ post: req.params.postId });
 
   return res.json({ comments });
 };

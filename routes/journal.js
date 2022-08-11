@@ -15,6 +15,6 @@ router.get( '/posts/:postId', postController.postDetail );
 
 router.get( '/posts/:postId/comments', commentController.commentList );
 
-router.post( '/posts/:postId', commentController.commentCreate );
+router.post( '/comment/:postId', commentController.commentCreate );
 
 module.exports = router;
