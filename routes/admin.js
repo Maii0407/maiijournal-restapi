@@ -27,4 +27,29 @@ router.get( '/allcomments',
   commentController.allComments
 );
 
+router.post( '/category',
+  passport.authenticate( 'jwt', { session: false }),
+  categoryController.categoryCreate
+);
+
+router.post( '/post',
+  passport.authenticate( 'jwt', { session: false }),
+  postController.postCreate
+);
+
+router.delete( '/comments/:commentId',
+  passport.authenticate( 'jwt', { session: false }),
+  commentController.commentDelete
+);
+
+router.delete( '/posts/:postId',
+  passport.authenticate( 'jwt', { session: false }),
+  postController.postDelete
+);
+
+router.delete( '/categories/:categoryId',
+  passport.authenticate( 'jwt', { session: false }),
+  categoryController.categoryDelete
+);
+
 module.exports = router;

@@ -29,7 +29,7 @@ const PostSchema = new Schema({
   }
 });
 
-PostSchema.pre( 'remove', function( next ) {
+PostSchema.pre( 'deleteOne', { document: true, query: false }, function( next ) {
   this.model( 'Comment' ).deleteMany({ post: this._id }, next);
 });
 

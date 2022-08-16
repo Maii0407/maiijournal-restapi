@@ -3,7 +3,8 @@ const { body, validationResult } = require( 'express-validator' );
 const Post = require( '../models/post' );
 
 exports.postList = async ( req, res, next ) => {
-  const posts = await Post.find().sort({ date: -1 });
+  const posts = await Post.find().sort({ date: -1 })
+    .populate( 'category' );
 
   return res.json({ posts });
 };

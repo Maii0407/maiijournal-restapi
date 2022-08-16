@@ -10,7 +10,7 @@ const CategorySchema = new Schema({
   }
 });
 
-CategorySchema.pre( 'remove', function( next ) {
+CategorySchema.pre( 'deleteOne', { document: true, query: false }, function( next ) {
   this.model( 'Post' ).deleteMany({ category: this._id }, next);
 });
 
