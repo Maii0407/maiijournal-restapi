@@ -52,4 +52,14 @@ router.delete( '/categories/:categoryId',
   categoryController.categoryDelete
 );
 
+router.put( '/categories/:categoryId',
+  passport.authenticate( 'jwt', { session: false }),
+  categoryController.categoryUpdate
+);
+
+router.put( '/posts/:postId',
+  passport.authenticate( 'jwt', { session: false }),
+  postController.postUpdate
+);
+
 module.exports = router;
